@@ -23,10 +23,19 @@
 		UPDATE location
 		   set longitude=#Longitude#, latitude=#Latitude# where line = #Line#
   	</update>
+  	
+  	<update id="uploadLocationForLine"  parameterClass="com.bocbus.project.bean.BUS_BUS">
+		UPDATE bus_bus
+		   set bus_longitude=#bus_longitude#, bus_latitude=#bus_latitude# where bus_line = #bus_line#
+  	</update>
+  	
 	
-	<select id="queryBusByLine" resultClass="com.bocbus.project.bean.BUS_BUS" parameterClass="com.bocbus.project.bean.BC0001ReqBody">
+	<select id="queryBusByLine" resultClass="com.bocbus.project.bean.BUS_BUS" parameterClass="java.lang.String">
 		SELECT * FROM bus_bus where bus_line = #line#
   	</select>
-	
+  	
+  	<select id="queryLineByLine" resultClass="com.bocbus.project.bean.BUS_LINE" parameterClass="java.lang.String">
+		SELECT * FROM bus_line where line_id = #line# order by line_stanum
+  	</select>
 </sqlMap>
 

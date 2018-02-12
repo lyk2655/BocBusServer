@@ -7,13 +7,10 @@
 package com.bocbus.project.dao;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import com.ibatis.sqlmap.client.SqlMapClient;
-import com.ibatis.sqlmap.client.SqlMapClientBuilder;
-import com.bocbus.project.bean.Userpf;
 
-@SuppressWarnings("unchecked")
+import com.bocbus.project.bean.Userpf;
+import com.ibatis.sqlmap.client.SqlMapClient;
+
 public class UserDaoImpl  implements UserDao {
 
 	 SqlMapClient sqlMapClient;   

@@ -71,5 +71,4 @@ public class BUS_LINE {
 				+ line_uptime + ", line_downtime=" + line_downtime + ", line_chgdt=" + line_chgdt + ", line_chgtm="
 				+ line_chgtm + "]";
 	}
-	
 }

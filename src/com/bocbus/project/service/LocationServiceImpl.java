@@ -6,6 +6,7 @@ import com.bocbus.project.bean.BC0002Req;
 import com.bocbus.project.bean.BC0002Rsp;
 import com.bocbus.project.bean.BC0002RspBody;
 import com.bocbus.project.bean.BCRspHeader;
+import com.bocbus.project.bean.BUS_BUS;
 import com.bocbus.project.bean.Location;
 import com.bocbus.project.dao.LocationDao;
 import com.bocbus.project.dao.UserDao;
@@ -36,9 +37,9 @@ public class LocationServiceImpl implements LocationService {
 		String sLine = req.getBody().getLINE();
 		Location location = new Location();
 		location.setLine(sLine);
-		location = locationDao.getLocation(location);	
-		rspBody.setLATITUDE(location.getLatitude());
-		rspBody.setLONGITUDE(location.getLongitude());
+		BUS_BUS bus = locationDao.getLocation(location);	
+		rspBody.setLATITUDE(bus.getBus_latitude());
+		rspBody.setLONGITUDE(bus.getBus_longitude());
 		rsp.setBody(rspBody);
 		return rsp;
 	}

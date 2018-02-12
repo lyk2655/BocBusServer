@@ -30,6 +30,12 @@
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
 
+	<bean id="queryLineDao" class="com.bocbus.project.dao.QueryLineDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	
+
+
 	<!-- 配置Service -->
 	
 	<bean id="locationService" class="com.bocbus.project.service.LocationServiceImpl"> 
@@ -49,6 +55,9 @@
 		<property name="modeDao" ref ="modeDao" />
 	</bean>
 	
+	<bean id="queryLineService" class="com.bocbus.project.service.QueryLineServiceImpl"> 
+		<property name="queryLineDao" ref ="queryLineDao" />
+	</bean>
 	
 	<!-- 定义Struts配置 -->
 	<bean name="LocationAction" class="com.bocbus.project.action.LocationAction">
@@ -74,5 +83,12 @@
 			<ref local="modeService" />
 		</property>
 	</bean>
+	
+	<bean name="QueryLineAction" class="com.bocbus.project.action.QueryLineAction">
+		<property name="queryLineService">
+			<ref local="queryLineService" />
+		</property>
+	</bean>
+	
 	
 </beans>
