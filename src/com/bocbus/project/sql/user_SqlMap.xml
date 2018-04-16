@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 <sqlMap namespace="user">
@@ -45,46 +44,3 @@
 	
 </sqlMap>
 
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
-<sqlMap namespace="user">
-	
-  	<select id="queryLocation" resultClass="com.bocbus.project.bean.Location" parameterClass="com.bocbus.project.bean.Location">
-		SELECT * FROM location where line = #Line#		
-  	</select>
-  	
-  	<select id="queryUser" resultClass="com.bocbus.project.bean.Userpf" parameterClass="com.bocbus.project.bean.Userpf">
-		SELECT * FROM userinfo
-		 <dynamic prepend="WHERE">
-		 	<isNotEmpty prepend=" AND " property="User_id">user_id = #User_id#</isNotEmpty>	 	
-		 </dynamic>
-  	</select>
-
-
-  	<update id="updateUser"  parameterClass="com.bocbus.project.bean.Userpf">
-		UPDATE userinfo
-		   set Last_loging_time=#Last_loging_time#,First_login=#First_login#
-	</update>
-	
-	<update id="uploadLocation"  parameterClass="com.bocbus.project.bean.Location">
-		UPDATE location
-		   set longitude=#Longitude#, latitude=#Latitude# where line = #Line#
-  	</update>
-  	
-  	<update id="uploadLocationForLine"  parameterClass="com.bocbus.project.bean.BUS_BUS">
-		UPDATE bus_bus
-		   set bus_longitude=#bus_longitude#, bus_latitude=#bus_latitude# where bus_line = #bus_line#
-  	</update>
-  	
-	
-	<select id="queryBusByLine" resultClass="com.bocbus.project.bean.BUS_BUS" parameterClass="java.lang.String">
-		SELECT * FROM bus_bus where bus_line = #line#
-  	</select>
-  	
-  	<select id="queryLineByLine" resultClass="com.bocbus.project.bean.BUS_LINE" parameterClass="java.lang.String">
-		SELECT * FROM bus_line where line_id = #line# order by line_stanum
-  	</select>
-</sqlMap>
-
->>>>>>> 9e0237e152cfaf5624a29824318048e21903ee4b

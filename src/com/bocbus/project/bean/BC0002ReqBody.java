@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.bocbus.project.bean;
 
 public class BC0002ReqBody {
@@ -19,19 +18,3 @@ public class BC0002ReqBody {
 	
 	
 }
-=======
-package com.bocbus.project.bean;
-
-public class BC0002ReqBody {
-	private String LINE;//	Ò³Âë
-
-	public String getLINE() {
-		return LINE;
-	}
-
-	public void setLINE(String line) {
-		LINE = line;
-	}
-	
-}
->>>>>>> 9e0237e152cfaf5624a29824318048e21903ee4b
