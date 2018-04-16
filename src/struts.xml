@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
@@ -29,3 +30,36 @@
            
 	</package>
 </struts>
+=======
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="default" extends="struts-default" namespace="/">
+		<action name="testByJSP"
+			class="userAction" method="testByJSP">
+			<result name="success">/json.jsp</result>
+		</action>
+        <action name="Login" 
+		    class="LoginAction" method="UserLogin">                 
+        </action>
+        <action name="QueryLocation"  
+		    class="LocationAction" method="doLocationSearch">                 
+        </action>           
+        <action name="UploadLocation"  
+		    class="UploadLocationAction" method="uploadLocation">                 
+        </action> 
+        
+        <action name="Mode"  
+		    class="ModeAction" method="modeAction">                 
+        </action> 
+        
+        <action name="QueryLine"  
+		    class="QueryLineAction" method="doQueryLine">                 
+        </action>
+            
+	</package>
+</struts>
+>>>>>>> 9e0237e152cfaf5624a29824318048e21903ee4b

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.bocbus.project.util;
 
 import java.io.Reader;
@@ -26,3 +27,33 @@ public class SqlMapClientFactory {
 		return sqlMapClient;
 	}
 }
+=======
+package com.bocbus.project.util;
+
+import java.io.Reader;
+
+import com.ibatis.common.resources.Resources;
+import com.ibatis.sqlmap.client.SqlMapClient;
+import com.ibatis.sqlmap.client.SqlMapClientBuilder;
+
+public class SqlMapClientFactory {
+
+	private static final SqlMapClient sqlMapClient;
+	static {
+		try {
+			String resource = "sqlMapConfig.xml";
+			Reader reader = Resources.getResourceAsReader(resource);
+			sqlMapClient = SqlMapClientBuilder.buildSqlMapClient(reader);
+			System.out.println("sql connected!");
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static SqlMapClient getSqlMapClient() {
+		return sqlMapClient;
+	}
+}
+>>>>>>> 9e0237e152cfaf5624a29824318048e21903ee4b
