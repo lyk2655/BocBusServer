@@ -14,3 +14,5 @@ http://111.230.148.118:8080/BocbusServer/BusLine.do?param={'head':{'TRACDE':'BC0
 
 05、BC0005-上传位置
 http://111.230.148.118:8080/BocbusServer/UploadLocation.do?param={'head':{'TRACDE':'BC00002','TRADAT':'11111','TRATIM':'11111','USRNAM':'1'},'body':{'line':'1','longitude':'44444.1111','latitude':'44444.2222'}}
+
+![女神](https://github.com/lyk2655/BocBusServer/raw/master/img/001.png)
