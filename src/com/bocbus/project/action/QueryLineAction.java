@@ -31,7 +31,7 @@ public class QueryLineAction {
 		try{
 			BC0003Req requestContext=gsonRequest.fromJson(gsonString, BC0003Req.class);
 			HttpServletResponse response=ServletActionContext.getResponse();
-			//以下代码从JSON.java中拷过来的
+
 			response.setContentType("text/html");
 			PrintWriter out;
 			out = response.getWriter();

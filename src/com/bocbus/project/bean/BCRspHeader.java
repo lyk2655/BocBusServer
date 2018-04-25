@@ -1,14 +1,9 @@
 package com.bocbus.project.bean;
 
-/**
- * @author wky2527
- *
- * ��������app�ķ��ر���ͷ
- */
 
 public class BCRspHeader {
-	private String RTNSTS; //���
-	private String ERRMSG; //��������
+	private String RTNSTS; 
+	private String ERRMSG;
 	
 	public String getRTNSTS() {
 		return RTNSTS;

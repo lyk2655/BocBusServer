@@ -6,8 +6,12 @@ public class BUS_BUS {
 	private String bus_line;
 	private String bus_driver;
 	private String bus_tell;
-	private String bus_longitude;
-	private String bus_latitude;
+	private String bus_longitude1;
+	private String bus_latitude1;
+	private String bus_longitude2;
+	private String bus_latitude2;
+	private String bus_longitude3;
+	private String bus_latitude3;
 	private String bus_uploadid;
 	private String bus_uploaddt;
 	private String bus_uploadtm;
@@ -15,8 +19,10 @@ public class BUS_BUS {
 	private String bus_lasttm;
 	private String bus_nextsta;
 	private String bus_nexttm;
+	private String bus_nextdis;
 	private String bus_chgdt;
 	private String bus_chgtm;
+	
 	public String getBus_id() {
 		return bus_id;
 	}
@@ -47,17 +53,41 @@ public class BUS_BUS {
 	public void setBus_tell(String bus_tell) {
 		this.bus_tell = bus_tell;
 	}
-	public String getBus_longitude() {
-		return bus_longitude;
+	public String getBus_longitude1() {
+		return bus_longitude1;
 	}
-	public void setBus_longitude(String bus_longitude) {
-		this.bus_longitude = bus_longitude;
+	public void setBus_longitude1(String bus_longitude1) {
+		this.bus_longitude1 = bus_longitude1;
 	}
-	public String getBus_latitude() {
-		return bus_latitude;
+	public String getBus_latitude1() {
+		return bus_latitude1;
 	}
-	public void setBus_latitude(String bus_latitude) {
-		this.bus_latitude = bus_latitude;
+	public void setBus_latitude1(String bus_latitude1) {
+		this.bus_latitude1 = bus_latitude1;
+	}
+	public String getBus_longitude2() {
+		return bus_longitude2;
+	}
+	public void setBus_longitude2(String bus_longitude2) {
+		this.bus_longitude2 = bus_longitude2;
+	}
+	public String getBus_latitude2() {
+		return bus_latitude2;
+	}
+	public void setBus_latitude2(String bus_latitude2) {
+		this.bus_latitude2 = bus_latitude2;
+	}
+	public String getBus_longitude3() {
+		return bus_longitude3;
+	}
+	public void setBus_longitude3(String bus_longitude3) {
+		this.bus_longitude3 = bus_longitude3;
+	}
+	public String getBus_latitude3() {
+		return bus_latitude3;
+	}
+	public void setBus_latitude3(String bus_latitude3) {
+		this.bus_latitude3 = bus_latitude3;
 	}
 	public String getBus_uploadid() {
 		return bus_uploadid;
@@ -101,6 +131,12 @@ public class BUS_BUS {
 	public void setBus_nexttm(String bus_nexttm) {
 		this.bus_nexttm = bus_nexttm;
 	}
+	public String getBus_nextdis() {
+		return bus_nextdis;
+	}
+	public void setBus_nextdis(String bus_nextdis) {
+		this.bus_nextdis = bus_nextdis;
+	}
 	public String getBus_chgdt() {
 		return bus_chgdt;
 	}
@@ -116,12 +152,15 @@ public class BUS_BUS {
 	@Override
 	public String toString() {
 		return "BUS_BUS [bus_id=" + bus_id + ", bus_num=" + bus_num + ", bus_line=" + bus_line + ", bus_driver="
-				+ bus_driver + ", bus_tell=" + bus_tell + ", bus_longitude=" + bus_longitude + ", bus_latitude="
-				+ bus_latitude + ", bus_uploadid=" + bus_uploadid + ", bus_uploaddt=" + bus_uploaddt + ", bus_uploadtm="
-				+ bus_uploadtm + ", bus_laststa=" + bus_laststa + ", bus_lasttm=" + bus_lasttm + ", bus_nextsta="
-				+ bus_nextsta + ", bus_nexttm=" + bus_nexttm + ", bus_chgdt=" + bus_chgdt + ", bus_chgtm=" + bus_chgtm
+				+ bus_driver + ", bus_tell=" + bus_tell + ", bus_longitude1=" + bus_longitude1 + ", bus_latitude1="
+				+ bus_latitude1 + ", bus_longitude2=" + bus_longitude2 + ", bus_latitude2=" + bus_latitude2
+				+ ", bus_longitude3=" + bus_longitude3 + ", bus_latitude3=" + bus_latitude3 + ", bus_uploadid="
+				+ bus_uploadid + ", bus_uploaddt=" + bus_uploaddt + ", bus_uploadtm=" + bus_uploadtm + ", bus_laststa="
+				+ bus_laststa + ", bus_lasttm=" + bus_lasttm + ", bus_nextsta=" + bus_nextsta + ", bus_nexttm="
+				+ bus_nexttm + ", bus_nextdis=" + bus_nextdis + ", bus_chgdt=" + bus_chgdt + ", bus_chgtm=" + bus_chgtm
 				+ "]";
 	}
+	
 	
 	
 }

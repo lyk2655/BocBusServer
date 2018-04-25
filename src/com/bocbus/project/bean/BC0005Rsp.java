@@ -1,8 +1,8 @@
 package com.bocbus.project.bean;
 
 public class BC0005Rsp {
-	private BCRspHeader head; //报文头
-	private BC0005RspBody body; //报文体
+	private BCRspHeader head; 
+	private BC0005RspBody body;
 
 	public BC0005RspBody getBody() {
 		return body;
