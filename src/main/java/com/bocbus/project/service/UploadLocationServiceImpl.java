@@ -5,12 +5,15 @@ import com.bocbus.project.bean.BC0005ReqBody;
 import com.bocbus.project.bean.BC0005Rsp;
 import com.bocbus.project.bean.BC0005RspBody;
 import com.bocbus.project.bean.BCRspHeader;
+import com.bocbus.project.bean.BUS_BUS;
 import com.bocbus.project.bean.Location;
+import com.bocbus.project.dao.BusBusDao;
 import com.bocbus.project.dao.UploadLocationDao;
 import com.bocbus.project.util.MyHttpRequest;
 
 public class UploadLocationServiceImpl implements UploadLocationService {
 	private UploadLocationDao uploadLocationDao;
+	private BusBusDao busBusDao;
 
 	public UploadLocationDao getUploadLocationDao() {
 		return this.uploadLocationDao;
@@ -18,6 +21,14 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 
 	public void setUploadLocationDao(UploadLocationDao uploadLocationDao) {
 		this.uploadLocationDao = uploadLocationDao;
+	}
+	
+	public BusBusDao getBusBusDao() {
+		return busBusDao;
+	}
+
+	public void setBusBusDao(BusBusDao busBusDao) {
+		this.busBusDao = busBusDao;
 	}
 
 	@Override
@@ -32,6 +43,14 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 		String sLongitude = req.getBody().getLongitude();
 		String sLatitude = req.getBody().getLatitude();
 		
+		BUS_BUS bus = busBusDao.queryBusByLine(sLine);
+		
+		BUS_BUS tmpbus = new BUS_BUS();
+		tmpbus = bus;
+		System.out.println("[bus]"+bus);
+		System.out.println("[tmpbus]"+tmpbus);
+		tmpbus.setBus_driver("huangfeihong");
+		//int ret = busBusDao.updateBusByLineId(tmpbus);
 		//根据上传的位置，更新pos3，  pos1=pos2，pos2=pos3，pos3=newpos
 		//计算上一站点，下一站点
 		//判断首次更新：更新时间相差1min（1min定时刷新）
@@ -50,6 +69,10 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 		            		if(d > 100m) 更新 距离d，时间t
 		            		if(d <= 100m) 更新 上一站=下一站，距离d，时间t
 		           
+		
+		
+		
+		
 		
 		String ip = "http://restapi.amap.com/v3/distance";
         //String param="key=8ad12a9140feb5b3ebdcd83abf021d45&origins=116.481028,39.989643|114.481028,39.989643|115.481028,39.989643&destination=114.465302,40.004717&type=1";

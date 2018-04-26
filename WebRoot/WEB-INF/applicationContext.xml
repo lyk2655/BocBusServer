@@ -14,6 +14,7 @@
 	
 	<!-- 配置DAO -->
 
+	
 	<bean id="userDao" class="com.bocbus.project.dao.UserDaoImpl">
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
@@ -23,6 +24,10 @@
 	</bean>
 	
 	<bean id="uploadLocationDao" class="com.bocbus.project.dao.UploadLocationDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+	
+	<bean id="busBusDao" class="com.bocbus.project.dao.BusBusDaoImpl">
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
 	
@@ -47,6 +52,7 @@
 	
 	<bean id="uploadLocationService" class="com.bocbus.project.service.UploadLocationServiceImpl"> 
 		<property name="uploadLocationDao" ref ="uploadLocationDao" />
+		<property name="busBusDao" ref ="busBusDao" />
 	</bean>
 	
 	<bean id="modeService" class="com.bocbus.project.service.ModeServiceImpl"> 
