@@ -1,5 +1,7 @@
 package com.bocbus.project.service;
 
+import java.util.Date;
+
 import com.bocbus.project.bean.BC0005Req;
 import com.bocbus.project.bean.BC0005ReqBody;
 import com.bocbus.project.bean.BC0005Rsp;
@@ -9,6 +11,7 @@ import com.bocbus.project.bean.BUS_BUS;
 import com.bocbus.project.bean.Location;
 import com.bocbus.project.dao.BusBusDao;
 import com.bocbus.project.dao.UploadLocationDao;
+import com.bocbus.project.util.DateUtil;
 import com.bocbus.project.util.MyHttpRequest;
 
 public class UploadLocationServiceImpl implements UploadLocationService {
@@ -50,7 +53,16 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 		System.out.println("[bus]"+bus);
 		System.out.println("[tmpbus]"+tmpbus);
 		tmpbus.setBus_driver("huangfeihong");
-		//int ret = busBusDao.updateBusByLineId(tmpbus);
+		
+		DateUtil date= new DateUtil();
+		System.out.println(date);
+		tmpbus.setBus_chgdt(date.getDt());
+		tmpbus.setBus_chgtm(date.getTm());
+		
+		int ret = busBusDao.updateBusByLineId(tmpbus);
+		
+		
+		
 		//根据上传的位置，更新pos3，  pos1=pos2，pos2=pos3，pos3=newpos
 		//计算上一站点，下一站点
 		//判断首次更新：更新时间相差1min（1min定时刷新）
