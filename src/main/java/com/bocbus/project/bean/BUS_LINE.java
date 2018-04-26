@@ -10,6 +10,7 @@ public class BUS_LINE {
 	private String line_downtime;
 	private String line_chgdt;
 	private String line_chgtm;
+	
 	public String getLine_id() {
 		return line_id;
 	}
@@ -64,6 +65,8 @@ public class BUS_LINE {
 	public void setLine_chgtm(String line_chgtm) {
 		this.line_chgtm = line_chgtm;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "BUS_LINE [line_id=" + line_id + ", line_stanum=" + line_stanum + ", line_staname=" + line_staname

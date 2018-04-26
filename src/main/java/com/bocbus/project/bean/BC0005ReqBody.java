@@ -4,6 +4,7 @@ public class BC0005ReqBody {
 	private String line;
 	private String longitude;
 	private String latitude;
+	private String toc;
 	public String getLine() {
 		return line;
 	}
@@ -22,11 +23,18 @@ public class BC0005ReqBody {
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+	public String getToc() {
+		return toc;
+	}
+	public void setToc(String toc) {
+		this.toc = toc;
+	}
 	@Override
 	public String toString() {
-		return "BC0005ReqBody [line=" + line + ", longitude=" + longitude + ", latitude=" + latitude + "]";
+		return "BC0005ReqBody [line=" + line + ", longitude=" + longitude + ", latitude=" + latitude + ", toc=" + toc
+				+ "]";
 	}
-
-
+	
+	
 	
 }

@@ -53,6 +53,7 @@
 	<bean id="uploadLocationService" class="com.bocbus.project.service.UploadLocationServiceImpl"> 
 		<property name="uploadLocationDao" ref ="uploadLocationDao" />
 		<property name="busBusDao" ref ="busBusDao" />
+		<property name="busLineDao" ref ="busLineDao" />
 	</bean>
 	
 	<bean id="modeService" class="com.bocbus.project.service.ModeServiceImpl"> 

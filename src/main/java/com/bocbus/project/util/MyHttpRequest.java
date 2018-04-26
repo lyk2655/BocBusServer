@@ -226,7 +226,15 @@ public class MyHttpRequest {
     	//param={'head':{'TRACDE':'BC00001','TRADAT':'11111','TRATIM':'11111','USRNAM':'ling123'},'body':{'line':'2','mode':'P'}}
     	//String ip = "localhost"; 
     	
-        String ip = "111.230.148.118";
+    	
+    	String ip = "http://restapi.amap.com/v3/distance";
+        String param="key=8ad12a9140feb5b3ebdcd83abf021d45&origins=116.481028,39.989643|114.481028,39.989643|115.481028,39.989643&destination=114.465302,40.004717&type=1";
+       //String param="key=8ad12a9140feb5b3ebdcd83abf021d45&origins=116.481028,39.989643|114.481028,39.989643|115.481028,39.989643&destination=114.465302,40.004717&type=1";
+        
+       System.out.println("Get请求:"+MyHttpRequest.sendGet(ip, param,"utf-8"));
+
+    	
+        /*String ip = "111.230.148.118";
     	String port = "8080";
         String getUrl="/BocbusServer/Mode.do";
         String getUrl2="/BocbusServer/BusLine.do";
@@ -236,7 +244,7 @@ public class MyHttpRequest {
     	{
         	System.out.println("Get请求1["+i+"]:"+MyHttpRequest.sendGet("http://"+ip+":"+port+getUrl, param,"utf-8"));
             System.out.println("Get请求2["+i+"]:"+MyHttpRequest.sendGet(("http://"+ip+":"+port+getUrl2), param2,"utf-8"));
-    	} 
+    	} */
         
     }
 }

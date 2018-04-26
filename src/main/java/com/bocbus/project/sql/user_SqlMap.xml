@@ -36,6 +36,14 @@
 		SELECT * FROM bus_line where line_id = #line#
   	</select>
   	
+  	<select id="queryLineByLineId" resultClass="com.bocbus.project.bean.BUS_LINE" parameterClass="String">
+		SELECT * FROM bus_line where line_id = #line_id# order by line_id
+  	</select>
+  	
+  	<select id="queryLineByIdAndStanum" resultClass="com.bocbus.project.bean.BUS_LINE" parameterClass="String">
+		SELECT * FROM bus_line where line_id = #line_id# and line_stanum = #line_stanum#
+  	</select>
+  	
   	<select id="getBusLocationByLine" resultClass="com.bocbus.project.bean.BUS_BUS" parameterClass="com.bocbus.project.bean.BC0002ReqBody">
 		SELECT * FROM bus_bus where bus_line = #line#
   	</select>

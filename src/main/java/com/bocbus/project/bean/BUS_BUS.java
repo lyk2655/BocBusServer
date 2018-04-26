@@ -23,6 +23,34 @@ public class BUS_BUS {
 	private String bus_chgdt;
 	private String bus_chgtm;
 	
+	public BUS_BUS() {
+		
+	}
+	
+	public BUS_BUS(BUS_BUS bus) {
+		this.bus_id=bus.bus_id;
+		this.bus_num=bus.bus_num;
+		this.bus_line=bus.bus_line;
+		this.bus_driver=bus.bus_driver;
+		this.bus_tell=bus.bus_tell;
+		this.bus_longitude1=bus.bus_longitude1;
+		this.bus_latitude1=bus.bus_latitude1;
+		this.bus_longitude2=bus.bus_longitude2;
+		this.bus_latitude2=bus.bus_latitude2;
+		this.bus_longitude3=bus.bus_longitude3;
+		this.bus_latitude3=bus.bus_latitude3;
+		this.bus_uploadid=bus.bus_uploadid;
+		this.bus_uploaddt=bus.bus_uploaddt;
+		this.bus_uploadtm=bus.bus_uploadtm;
+		this.bus_laststa=bus.bus_laststa;
+		this.bus_lasttm=bus.bus_lasttm;
+		this.bus_nextsta=bus.bus_nextsta;
+		this.bus_nexttm=bus.bus_nexttm;
+		this.bus_nextdis=bus.bus_nextdis;
+		this.bus_chgdt=bus.bus_chgdt;
+		this.bus_chgtm=bus.bus_chgtm;
+	}
+	
 	public String getBus_id() {
 		return bus_id;
 	}
