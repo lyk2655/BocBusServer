@@ -48,7 +48,23 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 	public void setBusLineDao(BusLineDao busLineDao) {
 		this.busLineDao = busLineDao;
 	}
-
+	//判断首次更新：更新时间相差1min（1min定时刷新）
+	//位置没有变化，只更新时间
+	/* 首次更新：
+	         1）if(time > 1min)  pos1=pos2=0, pos3=newpos, 上一站=0 下一站=0
+	         2）if(pos1=0 && pos2=0)pos1=0， pos2=pos3，pos3=newpos  计算pos2到各个站点的距离，取min的站点，距离。 
+	            计算pos3到该站点的距离 判断是向该站点前进还是远离+上下行标识 得到上一站点，下一站点。如果远离，重新计算下一站距离
+	         3）if（pos1 = 0） 再确认一遍
+	            pos1=pos2 pos2=pos3， pos3=newpos 计算pos3到下一站点的距离，判断距离是否缩小。如果扩大，pos1=0， pos2=0，pos3=newpos,上一站=0，下一站=0
+	         4）if(pos1 !=0, pos2 != 0, pos3!=0)  pos1=pos2,pos2=pos3,pos3=newpos
+	            计算pos3到下一站点的距离d
+	            4.1） if(上一站 = 下一站)  更新 pos1=pos2 pos2=pos3， pos3=newpos ,计算下一站距离d
+	                         if(d > 100m) pos1=pos2 pos2=pos3， pos3=newpos 更新下一站点，重新计算距离新的下一站距离和时间
+	                         if(d <= 100m) 只更新pos1=pos2 pos2=pos3， pos3=newpos 不更新下一站距离时间
+	            4.2） if(上一站 != 下一站)  更新 pos1=pos2 pos2=pos3， pos3=newpos ,计算下一站距离d
+	            		if(d > 100m) 更新 距离d，时间t
+	            		if(d <= 100m) 更新 上一站=下一站，距离d，时间t
+	 */
 	@Override
 	public BC0005Rsp updateLoacationProcess(BC0005Req req) throws Exception {
 		// TODO Auto-generated method stub
@@ -78,19 +94,55 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 		GAPI_DISTANCE dis;
 		GAPI_DISTANCE_RESULT min,nextResult,lastResult,newResult;
 		int minid,lastid,nextid;  //距离最近站点，上一站点，下一站点对于Id（从1开始）
-		
+		if(sLatitude == null || sLatitude.equals("")) {
+			sLatitude = "0";
+		}
+		if(sLongitude == null || sLongitude.equals("")) {
+			sLongitude = "0";
+		}
+		if(bus == null) {
+			rspHead.setERRMSG("班车["+sLine+"]不存在");
+			rspHead.setRTNSTS("EEEE");
+			rsp.setHead(rspHead);
+			rsp.setBody(null);
+			return rsp;
+		}
+		if(bus.getBus_latitude1() == null || "".equals(bus.getBus_latitude1())) {
+			bus.setBus_latitude1("0");
+		}
+		if(bus.getBus_longitude1() == null || "".equals(bus.getBus_longitude1())) {
+			bus.setBus_longitude1("0");
+		}
+		if(bus.getBus_latitude2() == null || "".equals(bus.getBus_latitude2())) {
+			bus.setBus_latitude2("0");
+		}
+		if(bus.getBus_longitude2() == null || "".equals(bus.getBus_longitude2())) {
+			bus.setBus_longitude2("0");
+		}
+		if(bus.getBus_latitude3() == null || "".equals(bus.getBus_latitude3())) {
+			bus.setBus_latitude3("0");
+		}
+		if(bus.getBus_longitude3() == null || "".equals(bus.getBus_longitude3())) {
+			bus.setBus_longitude3("0");
+		}
+
+
+
+		//位置没有变化，只更新时间
 		if((bus.getBus_latitude3().equals(sLatitude) && bus.getBus_longitude3().equals(sLongitude))) {
 			tmpbus.setBus_chgdt(date.getDt());
 			tmpbus.setBus_chgtm(date.getTm());
 			int ret = busBusDao.updateBusByLineId(tmpbus);
 			if (ret == 1) {
-				rspHead.setERRMSG("班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]不变，时间刷新成功");
+				rspHead.setERRMSG("A班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]不变，时间刷新成功");
 				rspHead.setRTNSTS("0000");
 				rsp.setHead(rspHead);
+				rsp.setBody(tmpbus);
 			} else {
-				rspHead.setERRMSG("班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]不变，时间刷新失败");
+				rspHead.setERRMSG("A班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]不变，时间刷新失败");
 				rspHead.setRTNSTS("EEEE");
 				rsp.setHead(rspHead);
+				rsp.setBody(tmpbus);
 			}
 			return rsp;
 		}
@@ -115,13 +167,16 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 			tmpbus.setBus_chgtm(date.getTm());
 			int ret = busBusDao.updateBusByLineId(tmpbus);
 			if (ret == 1) {
-				rspHead.setERRMSG("A初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功");
+				rspHead.setERRMSG("B初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功-超时|pos3=0|pownew=0");
 				rspHead.setRTNSTS("0000");
 				rsp.setHead(rspHead);
+				rsp.setBody(tmpbus);
+				
 			} else {
-				rspHead.setERRMSG("A初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
+				rspHead.setERRMSG("B初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
 				rspHead.setRTNSTS("EEEE");
 				rsp.setHead(rspHead);
+				rsp.setBody(tmpbus);
 			}
 			return rsp;
 		} else if(bus.getBus_latitude2().equals("0") || bus.getBus_longitude2().equals("0")) {
@@ -160,17 +215,18 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 				tmpbus.setBus_chgtm(date.getTm());
 				int ret = busBusDao.updateBusByLineId(tmpbus);
 				if (ret == 1) {
-					rspHead.setERRMSG("B初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功");
+					rspHead.setERRMSG("C初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功：pos2=0，且到达");
 					rspHead.setRTNSTS("0000");
 					rsp.setHead(rspHead);
+					rsp.setBody(tmpbus);
 				} else {
-					rspHead.setERRMSG("B初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
+					rspHead.setERRMSG("C初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
 					rspHead.setRTNSTS("EEEE");
 					rsp.setHead(rspHead);
+					rsp.setBody(tmpbus);
 				}
 				return rsp;
 			}
-			
 			
 			StringBuffer ori3 = new StringBuffer();
 			StringBuffer des3 = new StringBuffer();
@@ -179,34 +235,6 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 			GAPI_DISTANCE_PARAMETERS pa3 = new GAPI_DISTANCE_PARAMETERS(ori3.toString(),des3.toString());
 			GAPI_DISTANCE dis3 = GapiUtil.getDistance(pa);
 			int l3 = Integer.parseInt(dis3.getResults().get(0).getDistance());//pos3距离
-			
-			//班车到达
-			if(ln <= 50) {
-				tmpbus.setBus_latitude1("0");
-				tmpbus.setBus_longitude1("0");
-				tmpbus.setBus_latitude2(bus.getBus_latitude3());
-				tmpbus.setBus_longitude2(bus.getBus_longitude3());
-				tmpbus.setBus_latitude3(sLatitude);
-				tmpbus.setBus_longitude3(sLongitude);
-				tmpbus.setBus_laststa(line.getLine_stanum());
-				tmpbus.setBus_lasttm(min.getDuration()); //距离上一站点的时间
-				tmpbus.setBus_nextsta(line.getLine_stanum());
-				tmpbus.setBus_nexttm(min.getDuration());
-				tmpbus.setBus_nextdis(min.getDistance());
-				tmpbus.setBus_chgdt(date.getDt());
-				tmpbus.setBus_chgtm(date.getTm());
-				int ret = busBusDao.updateBusByLineId(tmpbus);
-				if (ret == 1) {
-					rspHead.setERRMSG("B初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功");
-					rspHead.setRTNSTS("0000");
-					rsp.setHead(rspHead);
-				} else {
-					rspHead.setERRMSG("B初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
-					rspHead.setRTNSTS("EEEE");
-					rsp.setHead(rspHead);
-				}
-				return rsp;
-			}
 			
 			//判断上一站，下一站
 			String line_stanum,line_id;
@@ -250,16 +278,17 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 			tmpbus.setBus_chgtm(date.getTm());
 			int ret = busBusDao.updateBusByLineId(tmpbus);
 			if (ret == 1) {
-				rspHead.setERRMSG("B初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功");
+				rspHead.setERRMSG("E初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功：pos2=0，重新得到上下站点");
 				rspHead.setRTNSTS("0000");
 				rsp.setHead(rspHead);
+				rsp.setBody(tmpbus);
 			} else {
-				rspHead.setERRMSG("B初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
+				rspHead.setERRMSG("E初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
 				rspHead.setRTNSTS("EEEE");
 				rsp.setHead(rspHead);
+				rsp.setBody(tmpbus);
 			}
 			return rsp;
-			
 		} else { 
 			//一分钟内更新,且(pos1=0 || pos1 != 0), pos2!=0 pos3 !=0  
 			//计算posnew到下一站点的距离，判断距离是否缩小。如果扩大，pos1=0， pos2=0，pos3=newpos,上一站=0，下一站=0
@@ -292,13 +321,15 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 				tmpbus.setBus_chgtm(date.getTm());
 				int ret = busBusDao.updateBusByLineId(tmpbus);
 				if (ret == 1) {
-					rspHead.setERRMSG("更新班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功");
+					rspHead.setERRMSG("F更新班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功：正常情况，到达|距离缩小");
 					rspHead.setRTNSTS("0000");
 					rsp.setHead(rspHead);
+					rsp.setBody(tmpbus);
 				} else {
-					rspHead.setERRMSG("更新班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
+					rspHead.setERRMSG("F更新班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
 					rspHead.setRTNSTS("EEEE");
 					rsp.setHead(rspHead);
+					rsp.setBody(tmpbus);
 				}
 				return rsp;
 			} else {
@@ -314,35 +345,19 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 				tmpbus.setBus_chgtm(date.getTm());
 				int ret = busBusDao.updateBusByLineId(tmpbus);
 				if (ret == 1) {
-					rspHead.setERRMSG("C初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功");
+					rspHead.setERRMSG("G初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]成功，正常情况，距离缩变大，重新pos=2");
 					rspHead.setRTNSTS("0000");
 					rsp.setHead(rspHead);
+					rsp.setBody(tmpbus);
 				} else {
-					rspHead.setERRMSG("C初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
+					rspHead.setERRMSG("G初始化班车["+sLine+"]位置["+sLongitude+","+sLatitude+"]失败");
 					rspHead.setRTNSTS("EEEE");
 					rsp.setHead(rspHead);
+					rsp.setBody(tmpbus);
 				}
 				return rsp;
 			}
 		}
-
-		//判断首次更新：更新时间相差1min（1min定时刷新）
-		//位置没有变化，只更新时间
-		/* 首次更新：
-		         1）if(time > 1min)  pos1=pos2=0, pos3=newpos, 上一站=0 下一站=0
-		         2）if(pos1=0 && pos2=0)pos1=0， pos2=pos3，pos3=newpos  计算pos2到各个站点的距离，取min的站点，距离。 
-		            计算pos3到该站点的距离 判断是向该站点前进还是远离+上下行标识 得到上一站点，下一站点。如果远离，重新计算下一站距离
-		         3）if（pos1 = 0） 再确认一遍
-		            pos1=pos2 pos2=pos3， pos3=newpos 计算pos3到下一站点的距离，判断距离是否缩小。如果扩大，pos1=0， pos2=0，pos3=newpos,上一站=0，下一站=0
-		         4）if(pos1 !=0, pos2 != 0, pos3!=0)  pos1=pos2,pos2=pos3,pos3=newpos
-		            计算pos3到下一站点的距离d
-		            4.1） if(上一站 = 下一站)  更新 pos1=pos2 pos2=pos3， pos3=newpos ,计算下一站距离d
-		                         if(d > 100m) pos1=pos2 pos2=pos3， pos3=newpos 更新下一站点，重新计算距离新的下一站距离和时间
-		                         if(d <= 100m) 只更新pos1=pos2 pos2=pos3， pos3=newpos 不更新下一站距离时间
-		            4.2） if(上一站 != 下一站)  更新 pos1=pos2 pos2=pos3， pos3=newpos ,计算下一站距离d
-		            		if(d > 100m) 更新 距离d，时间t
-		            		if(d <= 100m) 更新 上一站=下一站，距离d，时间t
-		 */
 	}
 	
 }

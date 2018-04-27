@@ -32,7 +32,6 @@ public class LocationServiceImpl implements LocationService {
 		// TODO Auto-generated method stub
 		System.out.println("ssss"+req);
 		BC0002Rsp rsp = new BC0002Rsp();
-		BC0002RspBody rspBody = new BC0002RspBody();
 		BCRspHeader rspHead = new BCRspHeader();
 		if(req.getBody().getLine() == null || "".equals(req.getBody().getLine()))
 		{
@@ -56,13 +55,7 @@ public class LocationServiceImpl implements LocationService {
 			return rsp;
 		}
 		System.out.println(bus);
-		rspBody.setLatitude(bus.getBus_latitude3());
-		rspBody.setLongitude(bus.getBus_longitude3());
-		rspBody.setLastStation(bus.getBus_laststa());
-		rspBody.setNextStation(bus.getBus_nextsta());
-		rspBody.setNextDistance(bus.getBus_nextdis());
-		rspBody.setNextTime(bus.getBus_nexttm());
-		rsp.setBody(rspBody);
+		rsp.setBody(bus);
 		return rsp;
 	}
 

@@ -1,8 +1,8 @@
 package com.bocbus.project.bean;
 
 public class BC0005Req {
-	private BCReqHeader head; //����ͷ
-	private BC0005ReqBody body; //������
+	private BCReqHeader head; 
+	private BC0005ReqBody body;
 	public BCReqHeader getHead() {
 		return head;
 	}

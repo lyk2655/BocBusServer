@@ -1,6 +1,7 @@
 package com.bocbus.project.bean;
 
 public class BC0005ReqBody {
+	//查询班车位置
 	private String line;
 	private String longitude;
 	private String latitude;

@@ -24,7 +24,8 @@ public class GapiUtil {
 
 	public static GAPI_DISTANCE_RESULT getMinDistance(GAPI_DISTANCE distances) {
 		// 查询不成功，返回-1
-		if (distances.getStatus().equals("0") || distances.getResults() == null || distances.getResults().isEmpty()) {
+		
+		if (distances.getResults() == null || distances.getResults().isEmpty() || distances.getStatus().equals("0")) {
 			return null;
 		}
 		Iterator<GAPI_DISTANCE_RESULT> i = distances.getResults().iterator();
