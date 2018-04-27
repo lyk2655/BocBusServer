@@ -1,30 +1,23 @@
-/**
- * @author wky2527
- *
- * ÓÃ»§¹ÜÀí
- */
 package com.bocbus.project.action;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.bocbus.project.bean.BC0002Req;
+import com.bocbus.project.bean.BC0002Rsp;
+import com.bocbus.project.bean.BC0002RspBody;
+import com.bocbus.project.bean.BCRspHeader;
+import com.bocbus.project.bean.BUS_BUS;
+import com.bocbus.project.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.bocbus.project.bean.BC0002Rsp;
-import com.bocbus.project.bean.BC0002Req;
-import com.bocbus.project.bean.BC0002RspBody;
-import com.bocbus.project.bean.BC0002ReqBody;
-import com.bocbus.project.bean.BCRspHeader;
-import com.bocbus.project.dao.UserDao;
-import com.bocbus.project.service.UserService;
 import com.opensymphony.xwork2.ActionSupport;
-import com.bocbus.project.bean.Userpf;
+
 public class LoginAction extends  ActionSupport{
 	private UserService userService;
 	
@@ -41,32 +34,32 @@ public class LoginAction extends  ActionSupport{
 		
 		//String method=request.getParameter("method");
 
-		//System.out.println("methodÊÇ");
+		//System.out.println("methodï¿½ï¿½");
 		//System.out.println(method);
 		Gson gsonRequest = new Gson();
 		String gsonString = request.getParameter("param");
 		System.out.println(gsonString);
-		//½«Òª±»·µ»Øµ½¿Í»§¶ËµÄ¶ÔÏó
+		//ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½Í»ï¿½ï¿½ËµÄ¶ï¿½ï¿½ï¿½
 		BCRspHeader responseHeader=new BCRspHeader();
-		BC0002RspBody responseBody=new BC0002RspBody();
+		BUS_BUS responseBody=new BUS_BUS();
 		BC0002Req requestContext=new BC0002Req();
 		BC0002Rsp responseContext=new BC0002Rsp();
 		PrintWriter out;
 			
 		try{
 			requestContext=gsonRequest.fromJson(gsonString, BC0002Req.class);
-			userService.UpdateUser(requestContext, responseHeader, responseBody);
+			//userService.UpdateUser(requestContext, responseHeader, responseBody);
 		}
 		catch(JsonSyntaxException e){
 			e.printStackTrace();
-			responseHeader.setHeader("M", "ÉÏËÍJSON¸ñÊ½ÓÐÎó");
+			responseHeader.setHeader("M", "ï¿½ï¿½ï¿½ï¿½JSONï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½");
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			responseHeader.setHeader("M", "ConDao±¨´í");
+			responseHeader.setHeader("M", "ConDaoï¿½ï¿½ï¿½ï¿½");
 		}
 		finally{		
-			//·µ»ØÇ°¶Ë±¨ÎÄ
+			//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½Ë±ï¿½ï¿½ï¿½
 			HttpServletResponse response=ServletActionContext.getResponse();
 			response.setContentType("text/html");
 			out = response.getWriter();
