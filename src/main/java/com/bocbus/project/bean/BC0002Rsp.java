@@ -2,24 +2,25 @@ package com.bocbus.project.bean;
 
 public class BC0002Rsp {
 	private BCRspHeader head;
-	private BUS_BUS body;
+	private BC0002RspBody body;
 	public BCRspHeader getHead() {
 		return head;
 	}
 	public void setHead(BCRspHeader head) {
 		this.head = head;
 	}
-	public BUS_BUS getBody() {
+	public BC0002RspBody getBody() {
 		return body;
 	}
-	public void setBody(BUS_BUS body) {
+	public void setBody(BC0002RspBody body) {
 		this.body = body;
 	}
 	@Override
 	public String toString() {
 		return "BC0002Rsp [head=" + head + ", body=" + body + "]";
 	}
-
+	
+	
 
 
 }

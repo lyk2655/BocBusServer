@@ -26,7 +26,6 @@
 
 	<sqlMap resource="com/bocbus/project/sql/user_SqlMap.xml" />
 
-
 </sqlMapConfig>
 
 

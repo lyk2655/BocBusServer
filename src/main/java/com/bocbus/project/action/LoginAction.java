@@ -41,7 +41,7 @@ public class LoginAction extends  ActionSupport{
 		System.out.println(gsonString);
 		//��Ҫ�����ص��ͻ��˵Ķ���
 		BCRspHeader responseHeader=new BCRspHeader();
-		BUS_BUS responseBody=new BUS_BUS();
+		BC0002RspBody responseBody=new BC0002RspBody();
 		BC0002Req requestContext=new BC0002Req();
 		BC0002Rsp responseContext=new BC0002Rsp();
 		PrintWriter out;
