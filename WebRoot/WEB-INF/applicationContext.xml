@@ -13,8 +13,6 @@
 	default-autowire="byName">
 	
 	<!-- 配置DAO -->
-
-	
 	<bean id="userDao" class="com.bocbus.project.dao.UserDaoImpl">
 		<property name="sqlMapClient" ref="sqlMapClient" />
 	</bean>
@@ -40,7 +38,6 @@
 	</bean>
 
 	<!-- 配置Service -->
-	
 	<bean id="locationService" class="com.bocbus.project.service.LocationServiceImpl"> 
 		<property name="locationDao" ref ="locationDao" />
 		<property name="userDao" ref ="userDao" />
@@ -63,8 +60,7 @@
 	<bean id="busLineService" class="com.bocbus.project.service.BusLineServiceImpl"> 
 		<property name="busLineDao" ref ="busLineDao" />
 	</bean>
-	
-	
+
 	<!-- 定义Struts配置 -->
 	<bean name="LocationAction" class="com.bocbus.project.action.LocationAction">
 		<property name="locationService">
@@ -91,6 +87,12 @@
 	</bean>
 	
 	<bean name="BusLineAction" class="com.bocbus.project.action.BusLineAction">
+		<property name="busLineService">
+			<ref local="busLineService" />
+		</property>
+	</bean>
+	
+	<bean name="QueryClosestStationAction" class="com.bocbus.project.action.QueryClosestStationAction">
 		<property name="busLineService">
 			<ref local="busLineService" />
 		</property>

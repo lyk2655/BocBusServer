@@ -21,8 +21,7 @@ import com.bocbus.project.util.GapiUtil;
 import com.bocbus.project.util.MyHttpRequest;
 
 public class LocationServiceImpl implements LocationService {
-
-
+	
 	private UserDao userDao;		
 	private BusLineDao busLineDao;
 

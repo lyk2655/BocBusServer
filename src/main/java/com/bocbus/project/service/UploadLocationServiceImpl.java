@@ -6,7 +6,6 @@ import java.util.List;
 import com.bocbus.project.bean.BC0005Req;
 import com.bocbus.project.bean.BC0005ReqBody;
 import com.bocbus.project.bean.BC0005Rsp;
-import com.bocbus.project.bean.BC0005RspBody;
 import com.bocbus.project.bean.BCRspHeader;
 import com.bocbus.project.bean.BUS_BUS;
 import com.bocbus.project.bean.BUS_LINE;
@@ -69,7 +68,6 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 	public BC0005Rsp updateLoacationProcess(BC0005Req req) throws Exception {
 		// TODO Auto-generated method stub
 		BC0005Rsp rsp = new BC0005Rsp();
-		BC0005RspBody rspBody = new BC0005RspBody();
 		BCRspHeader rspHead = new BCRspHeader();
 
 		BC0005ReqBody reqBody = req.getBody();

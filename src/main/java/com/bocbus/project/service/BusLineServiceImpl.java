@@ -2,14 +2,25 @@ package com.bocbus.project.service;
 
 
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 
 import com.bocbus.project.bean.BC0004Req;
 import com.bocbus.project.bean.BC0004Rsp;
 import com.bocbus.project.bean.BC0004RspBody;
+import com.bocbus.project.bean.BC0006ReqBody;
+import com.bocbus.project.bean.BC0006Rsp;
+import com.bocbus.project.bean.BCReqHeader;
 import com.bocbus.project.bean.BCRspHeader;
+import com.bocbus.project.bean.BUS_LINE;
+import com.bocbus.project.bean.GAPI_DISTANCE;
+import com.bocbus.project.bean.GAPI_DISTANCE_PARAMETERS;
+import com.bocbus.project.bean.GAPI_DISTANCE_RESULT;
 import com.bocbus.project.bean.StationLocation;
 import com.bocbus.project.dao.BusLineDao;
+import com.bocbus.project.util.DateUtil;
+import com.bocbus.project.util.GapiUtil;
+import com.bocbus.project.bean.BC0006Req;
 
 public class BusLineServiceImpl implements  BusLineService{
 
@@ -43,6 +54,46 @@ public class BusLineServiceImpl implements  BusLineService{
 		System.out.println(line);
 		rspBody.setStationList(line);
 		rsp.setBody(rspBody);
+		return rsp;
+	}
+
+	@Override
+	public BC0006Rsp QueryClosestStation(BC0006Req req) throws SQLException {
+		String sline = req.getBody().getLine();
+		String longitude = req.getBody().getLongitude();
+		String latitude = req.getBody().getLatitude();
+		
+		//获取班车路线站点信息
+		List<BUS_LINE> lines = busLineDao.queryLineByLineId(sline);
+		DateUtil date= new DateUtil();
+		StringBuffer origin = new StringBuffer();
+		Iterator<BUS_LINE> iter = lines.iterator();
+		BUS_LINE line = iter.next();
+		origin.append(line.getLine_longitude()).append(",").append(line.getLine_latitude());
+		while(iter.hasNext()) {
+			line = iter.next();
+			origin.append("|").append(line.getLine_longitude()).append(",").append(line.getLine_latitude());
+		}
+		
+		StringBuffer des = new StringBuffer();
+		des.append(longitude).append(",").append(latitude);
+		
+		GAPI_DISTANCE_PARAMETERS pa = new GAPI_DISTANCE_PARAMETERS(origin.toString(), des.toString());
+		GAPI_DISTANCE dis = GapiUtil.getDistance(pa);
+		GAPI_DISTANCE_RESULT min = GapiUtil.getMinDistance(dis);
+		
+		int minid = Integer.parseInt(min.getOrigin_id());
+		line = lines.get(minid-1);
+		
+		BC0006Rsp rsp = new BC0006Rsp();
+		BCReqHeader head = new BCReqHeader();
+		head.setTRACDE("BC0006");
+		head.setTRADAT(date.getDt());
+		head.setTRATIM(date.getTm());
+		head.setUSRNAM(req.getHead().getUSRNAM());
+		rsp.setHead(head);
+		rsp.setLine(line);
+
 		return rsp;
 	}
 	

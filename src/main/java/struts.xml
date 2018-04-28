@@ -9,23 +9,29 @@
 			class="userAction" method="testByJSP">
 			<result name="success">/json.jsp</result>
 		</action>
+		
         <action name="Login" 
 		    class="LoginAction" method="UserLogin">                 
         </action>
+        
         <action name="QueryLocation"  
 		    class="LocationAction" method="doLocationSearch">                 
-        </action>           
+        </action>
+                 
         <action name="UploadLocation"  
 		    class="UploadLocationAction" method="uploadLocation">                 
-        </action> 
+        </action>
         
         <action name="Mode"  
-		    class="ModeAction" method="modeAction">                 
-        </action> 
+		    class="ModeAction" method="modeAction">               
+        </action>
          
         <action name="BusLine"  
-		    class="BusLineAction" method="doBusLineQuery">                 
-        </action>  
-           
+		    class="BusLineAction" method="doBusLineQuery">       
+        </action>
+        
+        <action name="QueryClosestStation"
+		    class="QueryClosestStationAction" method="QueryClosestStation">                 
+        </action>
 	</package>
 </struts>

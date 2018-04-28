@@ -5,7 +5,6 @@ import com.bocbus.project.bean.BC0001ReqBody;
 import com.bocbus.project.bean.BC0001Rsp;
 import com.bocbus.project.bean.BC0001RspBody;
 import com.bocbus.project.bean.BC0005Rsp;
-import com.bocbus.project.bean.BC0005RspBody;
 import com.bocbus.project.bean.BCRspHeader;
 import com.bocbus.project.bean.BUS_BUS;
 import com.bocbus.project.bean.Location;
