@@ -56,3 +56,23 @@ http://localhost:8080/BocbusServer/UploadLocation.do?param={'head':{'TRACDE':'BC
 
 
 
+
+ssh linyk3@47.106.81.77   
+ssh root@111.230.148.118   
+pass001!
+
+scp sourcefile  root@111.230.148.118:/root
+
+解压：tar zxvf FileName.tar.gz
+压缩：tar zcvf FileName.tar.gz DirName
+
+修改数据库：
+vi /root/apache-tomcat-8.5.28/webapps/BocbusServer/WEB-INF/classes/sqlMapConfig.xml
+vi /root/apache-tomcat-8.5.28/webapps/BocbusServer/WEB-INF/service.xml
+
+tail -f /root/apache-tomcat-8.5.28/logs/catalina.out
+./root/apache-tomcat-8.5.28/bin/shutdown.sh
+./root/apache-tomcat-8.5.28/bin/startup.sh
+
+查看端口哪个进程占用：lsof -i:8080
+查看端口： netstat -an | grep 8080
