@@ -33,8 +33,8 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/bocbus" />
-		<property name="username" value="root" />
-		<property name="password" value="root" />
+		<property name="username" value="bocbus" />
+		<property name="password" value="bocbus" />
 	</bean>
 
 	<!-- 配置事务特性 -->

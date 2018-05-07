@@ -42,7 +42,8 @@ public class MyHttpRequest {
        return  sendGet(url,sb.toString(), charset);
     }
 
-    public static String sendGetDistance(String url, BUS_BUS bus,String charset){
+    /*
+     * public static String sendGetDistance(String url, BUS_BUS bus,String charset){
         StringBuffer sb=new StringBuffer();
         Map<String, Object> map = new HashMap<String,Object>();
         String param="key=8ad12a9140feb5b3ebdcd83abf021d45"
@@ -64,6 +65,7 @@ public class MyHttpRequest {
         }
      return  sendGet(url,sb.toString(), charset);
   }
+  */
 
     /**
      * 向指定URL发送POST方法的请求

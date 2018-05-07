@@ -129,7 +129,7 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 			tmpbus.setBus_chgtm(date.getTm());
 			int ret = busBusDao.updateBusByLineId(tmpbus);
 			if (ret == 1) {
-				rspHead.setERRMSG("A班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]不变，时间刷新成功");
+				rspHead.setERRMSG("A班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]不变，时间刷新成功：【"+tmpbus.getBus_laststa()+"-"+tmpbus.getBus_nextsta()+"("+tmpbus.getBus_nextdis()+")】");
 				rspHead.setRTNSTS("0000");
 				rsp.setHead(rspHead);
 				rsp.setBody(tmpbus);
@@ -161,7 +161,7 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 			tmpbus.setBus_chgtm(date.getTm());
 			int ret = busBusDao.updateBusByLineId(tmpbus);
 			if (ret == 1) {
-				rspHead.setERRMSG("B初始化班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功-超时|pos3=0|pownew=0");
+				rspHead.setERRMSG("B初始化班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功-矫正计算:【"+tmpbus.getBus_laststa()+"-"+tmpbus.getBus_nextsta()+"("+tmpbus.getBus_nextdis()+")】");
 				rspHead.setRTNSTS("0000");
 				rsp.setHead(rspHead);
 				rsp.setBody(tmpbus);
@@ -209,7 +209,7 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 				tmpbus.setBus_chgtm(date.getTm());
 				int ret = busBusDao.updateBusByLineId(tmpbus);
 				if (ret == 1) {
-					rspHead.setERRMSG("C初始化班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功：pos2=0，且到达");
+					rspHead.setERRMSG("C初始化班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功：pos2=0，且到达:【"+tmpbus.getBus_laststa()+"-"+tmpbus.getBus_nextsta()+"("+tmpbus.getBus_nextdis()+")】");
 					rspHead.setRTNSTS("0000");
 					rsp.setHead(rspHead);
 					rsp.setBody(tmpbus);
@@ -227,7 +227,7 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 			ori3.append(line.getLine_longitude()).append(",").append(line.getLine_latitude());
 			des3.append(bus.getBus_longitude3()).append(",").append(bus.getBus_latitude3());
 			GAPI_DISTANCE_PARAMETERS pa3 = new GAPI_DISTANCE_PARAMETERS(ori3.toString(), des3.toString());
-			GAPI_DISTANCE dis3 = GapiUtil.getDistance(pa);
+			GAPI_DISTANCE dis3 = GapiUtil.getDistance(pa3);
 			int l3 = Integer.parseInt(dis3.getResults().get(0).getDistance());// pos3距离
 
 			// 判断上一站，下一站
@@ -262,7 +262,7 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 			tmpbus.setBus_chgtm(date.getTm());
 			int ret = busBusDao.updateBusByLineId(tmpbus);
 			if (ret == 1) {
-				rspHead.setERRMSG("E初始化班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功：pos2=0，重新得到上下站点");
+				rspHead.setERRMSG("E初始化班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功：pos2=0，重新得到上下站点:【"+tmpbus.getBus_laststa()+"-"+tmpbus.getBus_nextsta()+"("+tmpbus.getBus_nextdis()+")】");
 				rspHead.setRTNSTS("0000");
 				rsp.setHead(rspHead);
 				rsp.setBody(tmpbus);
@@ -297,7 +297,7 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 				tmpbus.setBus_chgtm(date.getTm());
 				int ret = busBusDao.updateBusByLineId(tmpbus);
 				if (ret == 1) {
-					rspHead.setERRMSG("B初始化班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功-超时|pos3=0|pownew=0");
+					rspHead.setERRMSG("B初始化班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功-初始化:【"+tmpbus.getBus_laststa()+"-"+tmpbus.getBus_nextsta()+"("+tmpbus.getBus_nextdis()+")】");
 					rspHead.setRTNSTS("0000");
 					rsp.setHead(rspHead);
 					rsp.setBody(tmpbus);
@@ -318,8 +318,8 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 			newResult = dis.getResults().get(0);
 			int ln = Integer.parseInt(dis.getResults().get(0).getDistance());// posnew距离
 			int l3 = Integer.parseInt(bus.getBus_nextdis()); // pos3距离
-			// 班车到达或距离缩小
-			if (ln <= 50 || ln < l3) {
+			// 班车到达
+			if (ln <= 50) {
 				tmpbus.setBus_latitude1(bus.getBus_longitude2());
 				tmpbus.setBus_longitude1(bus.getBus_latitude2());
 				tmpbus.setBus_latitude2(bus.getBus_latitude3());
@@ -335,7 +335,7 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 				tmpbus.setBus_chgtm(date.getTm());
 				int ret = busBusDao.updateBusByLineId(tmpbus);
 				if (ret == 1) {
-					rspHead.setERRMSG("F更新班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功：正常情况，到达|距离缩小");
+					rspHead.setERRMSG("F更新班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功：正常情况，到达【"+tmpbus.getBus_laststa()+"-"+tmpbus.getBus_nextsta()+"("+tmpbus.getBus_nextdis()+")】");
 					rspHead.setRTNSTS("0000");
 					rsp.setHead(rspHead);
 					rsp.setBody(tmpbus);
@@ -346,7 +346,36 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 					rsp.setBody(tmpbus);
 				}
 				return rsp;
-			} else {
+			}
+			else if (ln <= l3) {
+				 //或距离缩小,只更新时间
+				tmpbus.setBus_latitude1(bus.getBus_longitude2());
+				tmpbus.setBus_longitude1(bus.getBus_latitude2());
+				tmpbus.setBus_latitude2(bus.getBus_latitude3());
+				tmpbus.setBus_longitude2(bus.getBus_longitude3());
+				tmpbus.setBus_latitude3(sLatitude);
+				tmpbus.setBus_longitude3(sLongitude);
+				//tmpbus.setBus_laststa(next.getLine_stanum());
+				//tmpbus.setBus_lasttm(newResult.getDuration()); // 距离上一站点的时间
+				tmpbus.setBus_nextsta(next.getLine_stanum());
+				tmpbus.setBus_nexttm(newResult.getDuration());
+				tmpbus.setBus_nextdis(newResult.getDistance());
+				tmpbus.setBus_chgdt(date.getDt());
+				tmpbus.setBus_chgtm(date.getTm());
+				int ret = busBusDao.updateBusByLineId(tmpbus);
+				if (ret == 1) {
+					rspHead.setERRMSG("G更新班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功：正常情况，距离缩小:【"+tmpbus.getBus_laststa()+"-"+tmpbus.getBus_nextsta()+"("+tmpbus.getBus_nextdis()+")】");
+					rspHead.setRTNSTS("0000");
+					rsp.setHead(rspHead);
+					rsp.setBody(tmpbus);
+				} else {
+					rspHead.setERRMSG("G更新班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]失败");
+					rspHead.setRTNSTS("EEEE");
+					rsp.setHead(rspHead);
+					rsp.setBody(tmpbus);
+				}
+				return rsp;
+			}else {
 				// 距离变大，重新计算
 				// pos1=0,pos2=0,pos3=posnew,上一站，下一站不变，修改时间
 				tmpbus.setBus_latitude1("0");
@@ -360,7 +389,7 @@ public class UploadLocationServiceImpl implements UploadLocationService {
 				int ret = busBusDao.updateBusByLineId(tmpbus);
 				if (ret == 1) {
 					rspHead.setERRMSG(
-							"G初始化班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功，正常情况，距离缩变大，重新pos=2");
+							"G初始化班车[" + sLine + "]位置[" + sLongitude + "," + sLatitude + "]成功，正常情况，距离变大，等待重新计算:【"+tmpbus.getBus_laststa()+"-"+tmpbus.getBus_nextsta()+"("+tmpbus.getBus_nextdis()+")】");
 					rspHead.setRTNSTS("0000");
 					rsp.setHead(rspHead);
 					rsp.setBody(tmpbus);
